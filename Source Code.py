@@ -140,6 +140,18 @@ with st.sidebar:
         signature = "".join(current_file_names)
     
         if st.button("解析并存入知识库"):
+            keywords = ["党", "思政", "马克思", "毛泽东", "习近平", "报告", "红色", "理论", "历史", "政策", "会议", "讲话", "求是"]
+            is_valid = True
+    
+            for file in uploaded_files:
+        # 检查文件名是否包含白名单里的任何一个词
+                if not any(kw in file.name for kw in keywords):
+                    st.error(f"⚠️ 拦截提示：您上传的文件【{file.name}】似乎不属于思政/党史范畴。本系统仅支持权威思政文献解析，请重新上传。")
+                    is_valid = False
+                    break # 只要发现一个违规文件，立刻跳出循环
+    
+            if not is_valid:
+                st.stop() # 停止执行，后面的解析和存入知识库的代码都不会运行
         
         # 第三步（下）：判断这次上传的文件是否和上次一样
             if st.session_state.get("last_uploaded_files") != signature:
@@ -273,6 +285,7 @@ if prompt_text := st.chat_input("请输入关于该 PDF 的问题："):
 2. 如果【检索到的内容】中有间接线索，请进行合理的上下文推理，但不要凭空捏造数据。
 3. 回答时，必须引用出处（如：第X页）。
 4. 如果内容中包含乱码（如菱形符号），那是 PDF 公式提取错误，请忽略乱码，尽可能根据文字上下文作答。
+5. 如果你发现用户提问涉及敏感政治或违背社会主义核心价值观，请立刻停止回答。
 
 【检索到的内容】：
 {retrieved_context}
