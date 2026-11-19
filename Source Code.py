@@ -132,7 +132,7 @@ with st.sidebar:
 # Streamlit 封装好了 sidebar 的上下文，进入 `with`，切换渲染区域；退出，切回主区域。
     st.header("文档上传区")
     # `st.header()`：侧边栏内二级标题。
-    uploaded_files = st.file_uploader("请上传PDF文件（支持多选）", type=["pdf"], accept_multiple_files=True)
+    uploaded_files = st.file_uploader("请上传PDF或DOCX文件（支持多选）", type=["pdf","docx"], accept_multiple_files=True)
     
     if uploaded_files:
     # 第三步（上）：生成当前文件的专属签名
