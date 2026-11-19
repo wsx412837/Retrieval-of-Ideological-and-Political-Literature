@@ -53,7 +53,7 @@ def get_embeddings(texts, batch_size=10):
             response = client.embeddings.create(
 # 服务器处理完，会返回一大包结构化数据（包含每条文本对应的 embedding 向量、使用 token 数等）
 # 把这包结果赋值给 `response`，后面我们从里面把向量取出来。
-                model="text-embedding-v4",
+                model="text-embedding-v2",
                 input=batch,
                 # `input` 是接口规定的参数，接收你要转向量的文本；这里传的就是上一句切块得到的 `batch`（一小批文本列表），刚好对应我们分批循环的逻辑。
                 encoding_format="float"
@@ -125,7 +125,7 @@ def split_text_by_paragraph(text, max_chunk_size=600):
 # 返回切分完成的所有文本块列表，后续就可以循环这个列表，向 ChromaDB add 文本 + 向量
 
 # ================= 5. 页面布局 =================
-st.title("ScholarRAG:学术级文献解析系统")
+st.title("思政RAG:学术级文献解析系统")
 # `st.title()`：Streamlit 的页面大标题，渲染在网页主内容区最上方。
 
 with st.sidebar:
@@ -284,7 +284,7 @@ if prompt_text := st.chat_input("请输入关于该 PDF 的问题："):
             # 4. 生成回答
             try:
                 response = client.chat.completions.create(
-                    model="qwen-plus",
+                    model="qwen-plus-2025-01-25",
                     messages=messages_to_send,
                     temperature=0.1
                     # 温度参数，**越低越严谨、随机性越小、越忠于原文**；
