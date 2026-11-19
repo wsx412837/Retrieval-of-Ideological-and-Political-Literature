@@ -229,7 +229,7 @@ if prompt_text := st.chat_input("请输入关于该 PDF 的问题："):
 
     with st.chat_message("assistant"):
         # - 提前打开助手的气泡框
-        with st.spinner("正在翻阅论文..."):
+        with st.spinner("正在翻阅该文档..."):
             # 加载动画：提示用户正在检索 PDF 知识库（向量检索阶段，还没调用 LLM）
             
             # 1. 向量检索：捞取最相关的 4 段
